@@ -9,3 +9,4 @@ def test_divide():
 def test_divide_by_zero():
     with pytest.raises(ZeroDivisionError):
         calculate(5, 0, "/")
+ 
