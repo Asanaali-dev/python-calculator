@@ -1,23 +1,56 @@
-while True:
-    a = float(input("Введите первое число: "))
-    b = float(input("Введите второе число: "))
-    op = input("Действие (+, -, *, /, **): ")
+OPERATORS = ["+", "-", "*", "/", "**"]
+
+
+def calculate(a, b, op):
     if op == "+":
-        print(a + b)
+        return a + b
     elif op == "-":
-        print(a - b)
+        return a - b
     elif op == "*":
-        print(a * b)
+        return a * b
     elif op == "/":
         if b == 0:
-            print("На ноль делить нельзя")
-        else:
-            print(a / b)
+            raise ZeroDivisionError("На ноль делить нельзя")
+        return a / b
     elif op == "**":
-        print(a ** b)
-    else:
-        print("Неизвестное действие")
+        return a ** b
 
-    again = input("Посчитать ещё? (да/нет): ")
-    if again.lower() != "да":
-        break
+
+def main():
+    history = []
+
+    while True:
+        try:
+            a = float(input("Введите первое число: "))
+            b = float(input("Введите второе число: "))
+        except ValueError:
+            print("Ошибка: нужно ввести число")
+            continue
+
+        op = input("Действие (+, -, *, /, **): ")
+        if op not in OPERATORS:
+            print("Неизвестное действие")
+            continue
+
+        try:
+            result = calculate(a, b, op)
+        except ZeroDivisionError as error:
+            print(error)
+        except OverflowError:
+            print("Слишком большое число")
+        else:
+            record = f"{a} {op} {b} = {result}"
+            print(record)
+            history.append(record)
+
+        again = input("Посчитать ещё? (да/нет): ")
+        if again.lower() != "да":
+            break
+
+    print("\nИстория вычислений:")
+    for line in history:
+        print(line)
+
+
+if __name__ == "__main__":
+    main()
